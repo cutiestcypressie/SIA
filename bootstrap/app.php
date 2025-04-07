@@ -23,9 +23,9 @@ $app = new Laravel\Lumen\Application(
     dirname(__DIR__)
 );
 
-// $app->withFacades();
+$app->withFacades();
 
-// $app->withEloquent();
+$app->withEloquent();
 
 /*
 |--------------------------------------------------------------------------
@@ -37,6 +37,14 @@ $app = new Laravel\Lumen\Application(
 | your own bindings here if you like or you can make another file.
 |
 */
+
+$app->configure('services');
+
+// Debug: Log the environment variables and configuration
+error_log("USERS1_SERVICE_BASE_URL: " . env('USERS1_SERVICE_BASE_URL'));
+error_log("USERS2_SERVICE_BASE_URL: " . env('USERS2_SERVICE_BASE_URL'));
+error_log("services.users1.base_uri: " . config('services.users1.base_uri'));
+error_log("services.users2.base_uri: " . config('services.users2.base_uri'));
 
 $app->singleton(
     Illuminate\Contracts\Debug\ExceptionHandler::class,
@@ -72,13 +80,13 @@ $app->configure('app');
 |
 */
 
-// $app->middleware([
-//     App\Http\Middleware\ExampleMiddleware::class
-// ]);
+$app->middleware([
+    App\Http\Middleware\ExampleMiddleware::class
+]);
 
-// $app->routeMiddleware([
-//     'auth' => App\Http\Middleware\Authenticate::class,
-// ]);
+$app->routeMiddleware([
+    'auth' => App\Http\Middleware\Authenticate::class,
+]);
 
 /*
 |--------------------------------------------------------------------------
