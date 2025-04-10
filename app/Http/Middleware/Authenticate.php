@@ -34,11 +34,26 @@ class Authenticate
      * @return mixed
      */
     public function handle($request, Closure $next, $guard = null)
-    {
-        if ($this->auth->guard($guard)->guest()) {
-            return response('Unauthorized.', 401);
-        }
+{
+    // Determine the site number based on the request path
+    $siteNumber = null;
 
-        return $next($request);
+    if ($request->is('users1/*')) {
+        $siteNumber = 1;
+    } elseif ($request->is('users2/*')) {
+        $siteNumber = 2;
     }
+
+    // Check authentication
+    if ($this->auth->guard($guard)->guest()) {
+        return response()->json([
+            'error' => "Unauthorized",
+            'code' => 401,
+            'site' => $siteNumber
+        ], 401);
+    }
+
+    return $next($request);
+}
+
 }

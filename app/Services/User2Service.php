@@ -4,37 +4,48 @@ namespace App\Services;
 
 use App\Traits\ConsumesExternalService;
 
-class User2Service{ 
+class User2Service
+{
     use ConsumesExternalService;
 
     public $baseUri;
+    public $secret;
 
     public function __construct()
     {
-        // Set the baseUri property directly from the environment variable
-        $this->baseUri = env('USERS2_SERVICE_BASE_URL', 'http://localhost:8001');
-        
-        // Debug: Log the base URI
-        error_log("User2Service baseUri: " . $this->baseUri);
+        $this->baseUri = config('services.users2.base_uri');
+        $this->secret = config('services.users2.secret');
     }
 
-    public function obtainUsers2(){
-        return $this->performRequest('GET', '/users');
+     /**
+    * Obtain the full list of Users from User2 Service
+    * @return string
+    */
+    public function obtainUsers2()
+    {
+        return $this->performRequest('GET', '/users'); 
+        // This will call GET localhost:8001/users (our Site2)
     }
 
-    public function create($data){
-        return $this->performRequest('POST', '/users', $data);
+    public function createUser2($data)
+    {
+    return $this->performRequest('POST', '/users', $data);
     }
 
-    public function obtainUser($id){
-        return $this->performRequest('GET', "/users/{$id}");
+    public function obtainUser2($id)
+    {
+    return $this->performRequest('GET', "/users/{$id}");
     }
 
-    public function edit($data, $id){
+    public function editUser2($data, $id)
+    {
         return $this->performRequest('PUT', "/users/{$id}", $data);
     }
-
-    public function delete($id){
+    
+    public function deleteUser2($id)
+    {
         return $this->performRequest('DELETE', "/users/{$id}");
     }
+    
+
 }
