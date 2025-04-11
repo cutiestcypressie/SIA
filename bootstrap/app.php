@@ -29,16 +29,20 @@ $app->singleton(
     App\Console\Kernel::class
 );
 
-// Register route middleware. (Removed the Passport client.credentials middleware.)
+// Register route middleware, including the new gateway authentication middleware.
 $app->routeMiddleware([
-    'auth' => App\Http\Middleware\Authenticate::class
+    'auth' => App\Http\Middleware\Authenticate::class,
+    'gateway.auth' => App\Http\Middleware\GatewayAuthenticate::class,
 ]);
 
 // Register Service Providers
 $app->register(App\Providers\AuthServiceProvider::class);
-// Removed: $app->register(Laravel\Passport\PassportServiceProvider::class);
-// Removed: $app->register(Dusterio\LumenPassport\PassportServiceProvider::class);
 
+// Remove any Passport providers:
+// $app->register(Laravel\Passport\PassportServiceProvider::class);
+// $app->register(Dusterio\LumenPassport\PassportServiceProvider::class);
+
+// Register your routes:
 $app->router->group([
     'namespace' => 'App\Http\Controllers',
 ], function ($router) {
