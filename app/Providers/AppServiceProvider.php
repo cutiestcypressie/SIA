@@ -4,7 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
-class AuthServiceProvider extends ServiceProvider
+class AppServiceProvider extends ServiceProvider
 {
     /**
      * Register any application services.
@@ -14,16 +14,5 @@ class AuthServiceProvider extends ServiceProvider
     public function register()
     {
         //
-    }
-
-    /**
-     * Boot the authentication services.
-     *
-     * @return void
-     */
-    public function boot()
-    {
-        // Removed Passport route registration:
-        // LumenPassport::routes($this->app->router);
     }
 }
