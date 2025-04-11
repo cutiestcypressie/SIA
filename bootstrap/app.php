@@ -8,7 +8,6 @@ require_once __DIR__.'/../vendor/autoload.php';
 
 date_default_timezone_set(env('APP_TIMEZONE', 'UTC'));
 
-
 $app = new Laravel\Lumen\Application(
     dirname(__DIR__)
 );
@@ -16,21 +15,9 @@ $app = new Laravel\Lumen\Application(
 $app->withFacades();
 $app->withEloquent();
 
-
 $app->configure('services');
 $app->configure('auth');
 $app->configure('app');
-
-/*
-|--------------------------------------------------------------------------
-| Register Container Bindings
-|--------------------------------------------------------------------------
-|
-| Now we will register a few bindings in the service container. We will
-| register the exception handler and the console kernel. You may add
-| your own bindings here if you like or you can make another file.
-|
-*/
 
 $app->singleton(
     Illuminate\Contracts\Debug\ExceptionHandler::class,
@@ -42,58 +29,15 @@ $app->singleton(
     App\Console\Kernel::class
 );
 
-
-/*
-|--------------------------------------------------------------------------
-| Register Middleware
-|--------------------------------------------------------------------------
-|
-| Next, we will register the middleware with the application. These can
-| be global middleware that run before and after each request into a
-| route or middleware that'll be assigned to some specific routes.
-|
-*/
-
-/*$app->middleware([
-    App\Http\Middleware\ExampleMiddleware::class
- ]);*/
-
-//Register Middleware
-
+// Register route middleware. (Removed the Passport client.credentials middleware.)
 $app->routeMiddleware([
-    'auth' => App\Http\Middleware\Authenticate::class,
-    'client.credentials' => Laravel\Passport\Http\Middleware\CheckClientCredentials::class,
+    'auth' => App\Http\Middleware\Authenticate::class
 ]);
 
-/*
-|--------------------------------------------------------------------------
-| Register Service Providers
-|--------------------------------------------------------------------------
-|
-| Here we will register all of the application's service providers which
-| are used to bind services into the container. Service providers are
-| totally optional, so you are not required to uncomment this line.
-|
-*/
-   //$app->register(Laravel\Lumen\Console\ConsoleServiceProvider::class);
-   //$app->register(App\Providers\AppServiceProvider::class);
-
-   $app->register(App\Providers\AuthServiceProvider::class);
-   $app->register(Laravel\Passport\PassportServiceProvider::class);
-   $app->register(Dusterio\LumenPassport\PassportServiceProvider::class);
-
-   //$app->register(App\Providers\EventServiceProvider::class);
-
-/*
-|--------------------------------------------------------------------------
-| Load The Application Routes
-|--------------------------------------------------------------------------
-|
-| Next we will include the routes file so that they can all be added to
-| the application. This will provide all of the URLs the application
-| can respond to, as well as the controllers that may handle them.
-|
-*/
+// Register Service Providers
+$app->register(App\Providers\AuthServiceProvider::class);
+// Removed: $app->register(Laravel\Passport\PassportServiceProvider::class);
+// Removed: $app->register(Dusterio\LumenPassport\PassportServiceProvider::class);
 
 $app->router->group([
     'namespace' => 'App\Http\Controllers',
