@@ -30,7 +30,7 @@ class User1Service
 
     public function createUser1($data)
     {
-        return $this->performRequest('POST', '/users1', $data);
+        return $this->performRequest('POST', '/users', $data);
     }
 
     public function obtainUser1($id)
